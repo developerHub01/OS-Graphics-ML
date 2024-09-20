@@ -72,21 +72,19 @@ class FCFS:
     for i in range(self.number_of_process):
       current_process_index = self.get_priority_index()
       
-      start_time = max(self.end_time, self.processes[current_process_index]["at"])
-      end_time = start_time + self.processes[current_process_index]['bt']
+      self.start_time = max(self.end_time, self.processes[current_process_index]["at"])
+      self.end_time = self.start_time + self.processes[current_process_index]['bt']
       
-      self.processes[current_process_index]["ct"] = end_time
+      self.processes[current_process_index]["ct"] = self.end_time
       
       self.processes[current_process_index]["tat"] = self.turn_around_time(current_process_index)
       
       self.processes[current_process_index]["wt"] = self.get_wait_time(current_process_index)
       
-      self.processes[current_process_index]["rt"] = start_time - self.processes[current_process_index]['at']
+      self.processes[current_process_index]["rt"] = self.start_time - self.processes[current_process_index]['at']
       
       self.processes[current_process_index]["is_complete"] = True
       
-      self.start_time = start_time
-      self.end_time = end_time
 
   def return_process_data(self):
     data = self.processes
