@@ -2,7 +2,6 @@ class SJF:
   def __init__(self):
     self.number_of_process = 0
     self.processes = []
-    self.gent_chart = []
     self.start_time = 0
     self.end_time = 0
   
@@ -42,7 +41,8 @@ class SJF:
     min_bust_time = float("inf")
     
     for index, details in enumerate(self.processes):
-      if details['is_complete']: continue
+      """ checking that is there any process till that time which are not completed """
+      if details['is_complete'] or details['at'] > self.end_time: continue
       
       if details['bt'] < min_bust_time:
         selectable_min_bust_list = [index]
@@ -69,7 +69,7 @@ class SJF:
         
     return min_process_no
     
-    
+
   def get_process_list(self):
     processes = []
     try:

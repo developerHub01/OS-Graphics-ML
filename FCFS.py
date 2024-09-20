@@ -55,7 +55,8 @@ class FCFS:
     min_at = float("inf")
     min_index = -1
     for index, details in enumerate(self.processes):
-      if details['is_complete']: continue
+      """ checking that is there any process till that time which are not completed """
+      if details['is_complete'] or details['at'] > self.end_time: continue
       if details['at'] < min_at: 
         min_at = details['at']
         min_index = index
