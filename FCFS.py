@@ -28,7 +28,6 @@ class FCFS:
   def __init__(self):
     self.number_of_process = 0
     self.processes = []
-    self.gentt_chart = []
     self.start_time = 0
     self.end_time = 0
   
@@ -57,16 +56,19 @@ class FCFS:
     min_index = -1
     for index, details in enumerate(self.processes):
       if details['is_complete']: continue
-      if(details['at'] < min_at): 
+      if details['at'] < min_at: 
         min_at = details['at']
         min_index = index
     return min_index
   
-  def turn_around_time(self, index): 
+  def get_turn_around_time(self, index): 
     return self.processes[index]['ct'] - self.processes[index]['at']
 
   def get_wait_time(self, index): 
     return self.processes[index]['tat'] - self.processes[index]['bt'] 
+
+  def get_response_time(self, index): 
+    return self.start_time - self.processes[index]['at'] 
 
   def start_process(self):
     for i in range(self.number_of_process):
@@ -77,11 +79,11 @@ class FCFS:
       
       self.processes[current_process_index]["ct"] = self.end_time
       
-      self.processes[current_process_index]["tat"] = self.turn_around_time(current_process_index)
+      self.processes[current_process_index]["tat"] = self.get_turn_around_time(current_process_index)
       
       self.processes[current_process_index]["wt"] = self.get_wait_time(current_process_index)
       
-      self.processes[current_process_index]["rt"] = self.start_time - self.processes[current_process_index]['at']
+      self.processes[current_process_index]["rt"] = self.get_response_time(current_process_index)
       
       self.processes[current_process_index]["is_complete"] = True
       
