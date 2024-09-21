@@ -57,9 +57,6 @@ class SJF:
       elif process['bt'] == min_burst_time:
         selectable_processes_burst_time.append(index)
         
-    
-    pprint(selectable_processes_burst_time)
-    
     if not len(selectable_processes_burst_time):
       return self.get_min_arrival_time(list(range(len(self.processes))))
     
