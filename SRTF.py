@@ -1,13 +1,14 @@
+""" Shorting Remaining Time First (Pre-emtive) """
+
 from pprint import pprint
 
 class SRJF:
   def __init__(self):
     self.number_of_process = 0
     self.processes = []
-    self.start_time = 0
-    self.end_time = 0
+    self.complete_processes = []
     self.current_time = 0
-  
+
   
   def start(self):
     self.processes = self.get_process_list()
@@ -17,10 +18,14 @@ class SRJF:
     self.print_result()
   
   def start_process(self):
-    # print("current_process_index: ", current_process_index)
-    
     while True: 
       current_process_index = self.get_selectable_process()
+
+      if current_process_index == -1:
+        self.current_time += 1
+        continue
+      
+      print("current_process_index: ", current_process_index)
       
       if 'first_response_time' not in self.processes[current_process_index]:
         self.processes[current_process_index]['first_response_time'] = self.current_time
@@ -30,14 +35,18 @@ class SRJF:
       self.processes[current_process_index]['tat'] = self.get_turn_around_time(current_process_index)
       self.processes[current_process_index]['wt'] = self.get_wait_time(current_process_index)
       self.processes[current_process_index]['rt'] = self.get_response_time(current_process_index)
-      
-      self.current_time += 1
 
-      if self.check_is_whole_process_complete(): break
+      self.current_time += 1
       
-  def check_is_whole_process_complete(self):
-    # Calculating the sum of 'changeable_bt' for all processes
-    return not sum(process['changeable_bt'] for process in self.processes) 
+      """ check if that process is completed then move it inot complete_processes list """
+      if not self.processes[current_process_index]['changeable_bt']:
+        process = self.processes.pop(current_process_index)
+        self.complete_processes.append(process)
+        
+      if not len(self.processes): break
+      
+    self.complete_processes.sort(key=lambda x: x['id'])
+
   
   def get_selectable_process(self):
     selectable_min_bust_list = []
@@ -53,24 +62,21 @@ class SRJF:
       elif details['changeable_bt'] == min_bust_time:
         selectable_min_bust_list.append(index)
     
-    selectable_min_arrival_list = []
+    if not len(selectable_min_bust_list):
+      return -1
+    
+    return self.get_min_arrival_time(selectable_min_bust_list)
+
+  def get_min_arrival_time(self, arr):
+    min_arrival_index = arr[0]
     min_arrival_time = float("inf")
     
-    for index in selectable_min_bust_list:
+    for index in arr:
       if self.processes[index]['at'] < min_arrival_time:
-        selectable_min_arrival_list = [index]
+        min_arrival_index = index
         min_arrival_time = self.processes[index]['at']
-      elif self.processes[index]['at'] == min_arrival_time:
-        selectable_min_arrival_list.append(index)
     
-    min_process_no = len(self.processes) - 1
-    
-    for index in selectable_min_arrival_list:
-      process_no = int(self.processes[index]['name'].split("P")[1]) - 1
-      if process_no < min_process_no:
-        min_process_no = process_no
-        
-    return min_process_no
+    return min_arrival_index
 
   def get_process_list(self):
     processes = []
@@ -88,10 +94,10 @@ class SRJF:
       
       print("P    AT BT")
       for i in range(self.number_of_process):
-        process_name = f"P{i+1}"
-        current_process_data = input(f"{process_name} = ").split()
+        process_id = i+1
+        current_process_data = input(f"P{process_id} = ").split()
         processes.append({
-          "name": process_name,
+          "id": process_id,
           "at": int(current_process_data[0]),
           "bt": int(current_process_data[1]),        
           "changeable_bt": int(current_process_data[1]),
@@ -114,8 +120,8 @@ class SRJF:
 
   def print_result(self):
     print("P\t AT\t BT\t CT\t TAT\t WT\t RT")
-    for _, data in enumerate(self.processes):
-      print(f"{data['name']}\t {data['at']}\t {data['bt']}\t {data['ct']}\t {data['tat']}\t {data['wt']}\t {data['rt']}")
+    for _, data in enumerate(self.complete_processes):
+      print(f"P{data['id']}\t {data['at']}\t {data['bt']}\t {data['ct']}\t {data['tat']}\t {data['wt']}\t {data['rt']}")
     
     print("""
     =====================================
@@ -132,4 +138,3 @@ class SRJF:
   
 srjf1 = SRJF()
 srjf1.start()
-# srjf1.print_result()
