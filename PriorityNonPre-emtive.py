@@ -12,8 +12,6 @@ class PriorityNonPre_emtive:
   def start(self):
     self.processes = self.get_process_list()
     
-    pprint(self.processes)
-    
     self.start_process()
 
     self.print_result()
