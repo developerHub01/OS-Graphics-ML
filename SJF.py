@@ -66,17 +66,15 @@ class SJF:
     return self.get_min_arrival_time(selectable_processes_burst_time)
         
   def get_min_arrival_time(self, arr):
-    min_arrival_index = []
+    min_arrival_index = arr[0] 
     min_arrival_time = float("inf")
     
     for index in arr:
       if self.processes[index]['at'] < min_arrival_time:
         min_arrival_time = self.processes[index]['at']
-        min_arrival_index = [index]
-      elif self.processes[index]['at'] == min_arrival_time:
-        min_arrival_index.append(index)
+        min_arrival_index = index
     
-    return min_arrival_index[0]
+    return min_arrival_index
 
   def get_process_list(self):
     processes = []
