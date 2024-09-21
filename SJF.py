@@ -1,7 +1,12 @@
+""" Shortest Job First (Non Pre-emtive) """
+
+from pprint import pprint
+
 class SJF:
   def __init__(self):
     self.number_of_process = 0
     self.processes = []
+    self.complete_processes = []
     self.start_time = 0
     self.end_time = 0
   
@@ -33,42 +38,45 @@ class SJF:
       self.processes[current_process_index]['tat'] = self.get_turn_around_time(current_process_index)
       self.processes[current_process_index]['wt'] = self.get_wait_time(current_process_index)
       self.processes[current_process_index]['rt'] = self.get_response_time(current_process_index)
-      self.processes[current_process_index]['is_complete'] = True
       
+      process = self.processes.pop(current_process_index)
+      self.complete_processes.append(process)
+      
+    self.complete_processes.sort(key=lambda x: x['id'])
       
   def get_selectable_process(self):
-    selectable_min_bust_list = []
-    min_bust_time = float("inf")
+    selectable_processes_burst_time = []
+    min_burst_time = float("inf")
     
-    for index, details in enumerate(self.processes):
-      """ checking that is there any process till that time which are not completed """
-      if details['is_complete'] or details['at'] > self.end_time: continue
+    for index, process in enumerate(self.processes):
+      if process['at'] > self.end_time: continue
       
-      if details['bt'] < min_bust_time:
-        selectable_min_bust_list = [index]
-        min_bust_time = details['bt']
-      elif details['bt'] == min_bust_time:
-        selectable_min_bust_list.append(index)
+      if process['bt'] < min_burst_time:
+        selectable_processes_burst_time = [index]
+        min_burst_time = process['bt']
+      elif process['bt'] == min_burst_time:
+        selectable_processes_burst_time.append(index)
+        
     
-    selectable_min_arrival_list = []
+    pprint(selectable_processes_burst_time)
+    
+    if not len(selectable_processes_burst_time):
+      return self.get_min_arrival_time(list(range(len(self.processes))))
+    
+    return self.get_min_arrival_time(selectable_processes_burst_time)
+        
+  def get_min_arrival_time(self, arr):
+    min_arrival_index = []
     min_arrival_time = float("inf")
     
-    for index in selectable_min_bust_list:
+    for index in arr:
       if self.processes[index]['at'] < min_arrival_time:
-        selectable_min_arrival_list = [index]
         min_arrival_time = self.processes[index]['at']
+        min_arrival_index = [index]
       elif self.processes[index]['at'] == min_arrival_time:
-        selectable_min_arrival_list.append(index)
+        min_arrival_index.append(index)
     
-    min_process_no = len(self.processes) - 1
-    
-    for index in selectable_min_arrival_list:
-      process_no = int(self.processes[index]['name'].split("P")[1]) - 1
-      if process_no < min_process_no:
-        min_process_no = process_no
-        
-    return min_process_no
-    
+    return min_arrival_index[0]
 
   def get_process_list(self):
     processes = []
@@ -86,13 +94,12 @@ class SJF:
       print("P    AT BT")
       
       for i in range(self.number_of_process):
-        process_name = f"P{i+1}"
-        current_process_data = input(f"{process_name} = ").split()
+        process_id = i+1
+        current_process_data = input(f"P{process_id} = ").split()
         processes.append({
-          "name": process_name,
+          "id": process_id,
           "at": int(current_process_data[0]),
           "bt": int(current_process_data[1]),        
-          "is_complete": False,
         })
         
       return processes
@@ -100,11 +107,10 @@ class SJF:
     except Exception as e:
       print("Process number must be a number")
   
-  
   def print_result(self):
     print("P\t AT\t BT\t CT\t TAT\t WT\t RT")
-    for _, data in enumerate(self.processes):
-      print(f"{data['name']}\t {data['at']}\t {data['bt']}\t {data['ct']}\t {data['tat']}\t {data['wt']}\t {data['rt']}")
+    for _, data in enumerate(self.complete_processes):
+      print(f"P{data['id']}\t {data['at']}\t {data['bt']}\t {data['ct']}\t {data['tat']}\t {data['wt']}\t {data['rt']}")
     
     print("""
     =====================================
@@ -121,4 +127,3 @@ class SJF:
 
 sjf1 = SJF()
 sjf1.start()
-sjf1.print_result()
