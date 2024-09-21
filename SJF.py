@@ -120,5 +120,6 @@ class SJF:
     """)
 
 
-sjf1 = SJF()
-sjf1.start()
+if __name__ == "__main__":
+  sjf1 = SJF()
+  sjf1.start()

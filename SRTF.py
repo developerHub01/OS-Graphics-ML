@@ -46,7 +46,6 @@ class SRJF:
       if not len(self.processes): break
       
     self.complete_processes.sort(key=lambda x: x['id'])
-
   
   def get_selectable_process(self):
     selectable_min_bust_list = []
@@ -136,5 +135,6 @@ class SRJF:
     """)
 
   
-srjf1 = SRJF()
-srjf1.start()
+if __name__ == "__main__":
+  srjf1 = SRJF()
+  srjf1.start()

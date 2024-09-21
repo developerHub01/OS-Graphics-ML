@@ -118,5 +118,7 @@ class FCFS:
     =====================================
     """)
   
-fcfs1 = FCFS()
-fcfs1.start()
+  
+if __name__ == "__main__":
+  fcfs1 = FCFS()
+  fcfs1.start()

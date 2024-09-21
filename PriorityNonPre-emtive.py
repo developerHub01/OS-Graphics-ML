@@ -104,9 +104,9 @@ class PriorityNonPre_emtive:
       print("Process number must be a number")
   
   def print_result(self):
-    print("P\t AT\t BT\t CT\t TAT\t WT\t RT")
+    print("P\t AT\t BT\t PT\t CT\t TAT\t WT\t RT")
     for _, data in enumerate(self.complete_processes):
-      print(f"P{data['id']}\t {data['at']}\t {data['bt']}\t {data['ct']}\t {data['tat']}\t {data['wt']}\t {data['rt']}")
+      print(f"P{data['id']}\t {data['at']}\t {data['pt']}\t {data['bt']}\t {data['ct']}\t {data['tat']}\t {data['wt']}\t {data['rt']}")
     
     print("""
     =====================================
@@ -122,6 +122,6 @@ class PriorityNonPre_emtive:
     """)
 
   
-
-pnp1 = PriorityNonPre_emtive()
-pnp1.start()
+if __name__ == "__main__":
+  pnp1 = PriorityNonPre_emtive()
+  pnp1.start()
