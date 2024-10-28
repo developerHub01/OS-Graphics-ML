@@ -25,8 +25,6 @@ class SRJF:
         self.current_time += 1
         continue
       
-      print("current_process_index: ", current_process_index)
-      
       if 'first_response_time' not in self.processes[current_process_index]:
         self.processes[current_process_index]['first_response_time'] = self.current_time
          
@@ -121,6 +119,20 @@ class SRJF:
     print("P\t AT\t BT\t CT\t TAT\t WT\t RT")
     for _, data in enumerate(self.complete_processes):
       print(f"P{data['id']}\t {data['at']}\t {data['bt']}\t {data['ct']}\t {data['tat']}\t {data['wt']}\t {data['rt']}")
+      
+    avg_ct = sum(process['ct'] for process in self.complete_processes) / self.number_of_process
+    avg_tat = sum(process['tat'] for process in self.complete_processes) / self.number_of_process
+    avg_wt = sum(process['wt'] for process in self.complete_processes) / self.number_of_process
+    avg_rt = sum(process['rt'] for process in self.complete_processes) / self.number_of_process
+    
+    print(f"""
+    ============== AVG =======================
+    AVG CT = {avg_ct}
+    AVG TAT = {avg_tat}
+    AVG WT = {avg_wt}
+    AVG RT = {avg_rt}
+    =====================================
+    """)
     
     print("""
     =====================================

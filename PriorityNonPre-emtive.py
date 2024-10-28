@@ -108,6 +108,21 @@ class PriorityNonPre_emtive:
     for _, data in enumerate(self.complete_processes):
       print(f"P{data['id']}\t {data['at']}\t {data['pt']}\t {data['bt']}\t {data['ct']}\t {data['tat']}\t {data['wt']}\t {data['rt']}")
     
+      
+    avg_ct = sum(process['ct'] for process in self.complete_processes) / self.number_of_process
+    avg_tat = sum(process['tat'] for process in self.complete_processes) / self.number_of_process
+    avg_wt = sum(process['wt'] for process in self.complete_processes) / self.number_of_process
+    avg_rt = sum(process['rt'] for process in self.complete_processes) / self.number_of_process
+    
+    print(f"""
+    ============== AVG =======================
+    AVG CT = {avg_ct}
+    AVG TAT = {avg_tat}
+    AVG WT = {avg_wt}
+    AVG RT = {avg_rt}
+    =====================================
+    """)
+    
     print("""
     =====================================
     Process ===> P

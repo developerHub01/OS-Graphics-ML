@@ -28,7 +28,7 @@ class FCFS:
   def __init__(self):
     self.number_of_process = 0
     self.processes = []
-    self.complete_procesees = []
+    self.complete_processes = []
     self.start_time = 0
     self.end_time = 0
   
@@ -89,9 +89,9 @@ class FCFS:
       self.processes[current_process_index]["rt"] = self.get_response_time(current_process_index)
       
       process = self.processes.pop(current_process_index)
-      self.complete_procesees.append(process)
+      self.complete_processes.append(process)
       
-    self.complete_procesees.sort(key=lambda x: x['id'])
+    self.complete_processes.sort(key=lambda x: x['id'])
 
 
   def start(self):
@@ -103,8 +103,23 @@ class FCFS:
   
   def print_result(self):
     print("P\t AT\t BT\t CT\t TAT\t WT\t RT")
-    for _, data in enumerate(self.complete_procesees):
+    for _, data in enumerate(self.complete_processes):
       print(f"P{data['id']}\t {data['at']}\t {data['bt']}\t {data['ct']}\t {data['tat']}\t {data['wt']}\t {data['rt']}")
+    
+    avg_ct = sum(process['ct'] for process in self.complete_processes) / self.number_of_process
+    avg_tat = sum(process['tat'] for process in self.complete_processes) / self.number_of_process
+    avg_wt = sum(process['wt'] for process in self.complete_processes) / self.number_of_process
+    avg_rt = sum(process['rt'] for process in self.complete_processes) / self.number_of_process
+    
+    print(f"""
+    ============== AVG =======================
+    AVG CT = {avg_ct}
+    AVG TAT = {avg_tat}
+    AVG WT = {avg_wt}
+    AVG RT = {avg_rt}
+    =====================================
+    """)
+    
     
     print("""
     =====================================
