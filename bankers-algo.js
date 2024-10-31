@@ -6,6 +6,7 @@ class Bankers {
     this.currentResourceNeed = [];
     this.availableResources = [];
     this.visited = {};
+    this.safeSequence = [];
   }
 
   start(resourceTypes, maxResources, allocatedResources) {
@@ -88,9 +89,12 @@ class Bankers {
       const currentAllocatedResources =
         this.allocatedResources[selectedProcessIndex];
 
+      this.safeSequence.push(selectedProcessIndex);
+
       this.availableResources.push(
         this.sumTwoArray(targetedAvailableResources, currentAllocatedResources)
       );
+
       this.visited[selectedProcessIndex] = true;
     }
   }
@@ -102,6 +106,9 @@ class Bankers {
     console.log("available resources: ");
     console.log("============================");
     console.log(this.availableResources);
+    console.log("safe sequence: ");
+    console.log("============================");
+    console.log(this.safeSequence);
   }
 }
 
