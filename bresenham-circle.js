@@ -1,7 +1,7 @@
 class BresenhamCircleDrawing {
-  constructor(redius) {
+  constructor(redius, centerCord = [0, 0]) {
     this.redius = redius;
-    this.centerCordinate = [0, 0];
+    this.centerCordinate = centerCord;
 
     this.circle = {
       "1st": [],
@@ -53,8 +53,25 @@ class BresenhamCircleDrawing {
     /* get fourth quadrant */
     this.circle["4th"] = this.circle["1st"].map(([x, y]) => [x, -1 * y]);
 
+
+    this.circle["1st"] = this.circle["1st"].filter(([x, y]) => {
+      return y !== 0;
+    });
+
+    this.circle["2nd"] = this.circle["2nd"].filter(([x, y]) => {
+      return x !== 0;
+    });
+
+    this.circle["3rd"] = this.circle["3rd"].filter(([x, y]) => {
+      return y !== 0;
+    });
+
+    this.circle["4th"] = this.circle["4th"].filter(([x, y]) => {
+      return x !== 0;
+    });
+
     return this.circle;
   }
 }
 
-console.log(new BresenhamCircleDrawing(7).run());
+console.log(new BresenhamCircleDrawing(7, [0, 0]).run());
