@@ -6,7 +6,7 @@ class OptimalPageReplacement {
     this.resultList = [];
     this.resultCount = {
       hit: 0,
-      fault: 0,
+      miss: 0,
     };
   }
 
@@ -30,9 +30,9 @@ class OptimalPageReplacement {
 
         this.resultList.push({
           reference,
-          type: "fault",
+          type: "miss",
         });
-        this.resultCount.fault++;
+        this.resultCount.miss++;
 
         if (!isFrameFull) currentFrameToInsertRef++;
       }
@@ -43,7 +43,7 @@ class OptimalPageReplacement {
       resultCount: this.resultCount,
       ratio: {
         hitRatio: this.hitRatio(),
-        faultRatio: this.faultRatio(),
+        missRatio: this.missRatio(),
       },
     };
   }
@@ -90,8 +90,8 @@ class OptimalPageReplacement {
   hitRatio() {
     return this.ratio(this.resultCount.hit, this.referenceList.length);
   }
-  faultRatio() {
-    return this.ratio(this.resultCount.fault, this.referenceList.length);
+  missRatio() {
+    return this.ratio(this.resultCount.miss, this.referenceList.length);
   }
 
   ratio(first, second) {
@@ -99,9 +99,23 @@ class OptimalPageReplacement {
   }
 }
 
-const optimalPageReplacement = new OptimalPageReplacement(
+const optimalPageReplacement1 = new OptimalPageReplacement(
   [7, 0, 1, 2, 0, 3, 0, 4, 2, 3, 0, 3, 2, 1, 2, 0, 1, 7, 0, 1],
   4
 );
 
-console.log(optimalPageReplacement.run());
+console.log(optimalPageReplacement1.run());
+
+const optimalPageReplacement2 = new OptimalPageReplacement(
+  [2, 3, 2, 1, 5, 2, 4, 5, 3, 2, 5, 2],
+  3
+);
+
+console.log(optimalPageReplacement2.run());
+
+const optimalPageReplacement3 = new OptimalPageReplacement(
+  [1, 2, 3, 4, 1, 5, 7, 3, 2],
+  3
+);
+
+console.log(optimalPageReplacement3.run());

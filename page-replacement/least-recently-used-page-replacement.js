@@ -7,7 +7,7 @@ class LRUPageReplacement {
     this.resultList = [];
     this.resultCount = {
       hit: 0,
-      fault: 0,
+      miss: 0,
     };
   }
 
@@ -32,9 +32,9 @@ class LRUPageReplacement {
 
         this.resultList.push({
           reference,
-          type: "fault",
+          type: "miss",
         });
-        this.resultCount.fault++;
+        this.resultCount.miss++;
 
         if (!isFrameFull) currentFrameToInsertRef++;
       }
@@ -45,7 +45,7 @@ class LRUPageReplacement {
       resultCount: this.resultCount,
       ratio: {
         hitRatio: this.hitRatio(),
-        faultRatio: this.faultRatio(),
+        missRatio: this.missRatio(),
       },
     };
   }
@@ -92,8 +92,8 @@ class LRUPageReplacement {
   hitRatio() {
     return this.ratio(this.resultCount.hit, this.referenceList.length);
   }
-  faultRatio() {
-    return this.ratio(this.resultCount.fault, this.referenceList.length);
+  missRatio() {
+    return this.ratio(this.resultCount.miss, this.referenceList.length);
   }
 
   ratio(first, second) {
