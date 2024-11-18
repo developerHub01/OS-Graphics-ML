@@ -1,7 +1,7 @@
 from pprint import pprint
 
 class MidPointEllipse:
-  def __init__(self, centerX, centerY, a = 0, b = 0):
+  def __init__(self, a, b, centerX=0, centerY=0):
     self.centerX = centerX
     self.centerY = centerY
     self.a = a
@@ -63,6 +63,8 @@ class MidPointEllipse:
     return self.ellipse
 
 
-midPointEllipse1 = MidPointEllipse(0, 0, 10, 15)
+a, b, centerX, centerY = list(map(int, input("Enter a, b, centerX, centerY = ").split()))
+
+midPointEllipse1 = MidPointEllipse(a, b, centerY, centerY)
 
 pprint(midPointEllipse1.draw())
