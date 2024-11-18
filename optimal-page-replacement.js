@@ -21,10 +21,7 @@ class OptimalPageReplacement {
         });
         this.resultCount.hit++;
       } else {
-        if (currentFrameToInsertRef >= this.frameSize) {
-          isFrameFull = true;
-          currentFrameToInsertRef = this.findOptimalReferenceIndex(index);
-        }
+        if (currentFrameToInsertRef >= this.frameSize) isFrameFull = true;
 
         if (isFrameFull)
           currentFrameToInsertRef = this.findOptimalReferenceIndex(index);
