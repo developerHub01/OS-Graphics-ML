@@ -54,6 +54,7 @@ class OptimalPageReplacement {
   findOptimalReferenceIndex(pivot) {
     /* getting existing references count */
     const existingFrameReferences = {};
+
     this.currentFrame.forEach(
       (reference, index) =>
         (existingFrameReferences[reference] = {
@@ -62,32 +63,31 @@ class OptimalPageReplacement {
         })
     );
 
+    let numberOfUniqueTraversed = 0;
+
     let selectedReference = this.referenceList[pivot];
 
     for (let index = pivot + 1; index < this.referenceList.length; index++) {
-      const reference = this.referenceList[index];
+      const currentReference = this.referenceList[index];
 
-      if (!this.currentFrame.includes(reference)) continue;
+      if (!this.currentFrame.includes(currentReference)) continue;
 
-      selectedReference = reference;
+      selectedReference = currentReference;
 
-      existingFrameReferences[reference].count++;
+      if (!existingFrameReferences[currentReference]?.count)
+        numberOfUniqueTraversed++;
 
-      if (
-        Object.values(existingFrameReferences).reduce(
-          (total, curr) => total + Boolean(curr.count),
-          0
-        ) === this.currentFrame.length
-      )
-        break;
+      existingFrameReferences[currentReference].count++;
+
+      if (numberOfUniqueTraversed === this.currentFrame.length) break;
     }
 
-    for (const reference in existingFrameReferences) {
-      const { index, count } = existingFrameReferences[reference];
+    for (const currentReference in existingFrameReferences) {
+      const { count, index } = existingFrameReferences[currentReference];
       if (!count) return index;
     }
 
-    return this.currentFrame.findIndex((item) => item === selectedReference);
+    return this.currentFrame.indexOf(selectedReference);
   }
 
   hitRatio() {
