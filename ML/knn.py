@@ -25,7 +25,8 @@ class KNN:
     return math.sqrt((cord1[0] - cord2[0])**2 + (cord1[1] - cord2[1])**2)
   
   def sort(self):
-    return sorted(self.dataset, key=lambda x: x[2])
+    # return sorted(self.dataset, key=lambda x: x[2])
+    return self.bubble_sort(self.dataset)
   
   def find_result_color(self):
     red_color = 0
@@ -39,6 +40,14 @@ class KNN:
       else:
         blue_color += 1
     return "red" if red_color > blue_color else "blue" 
+
+  def bubble_sort(self, arr):
+    n = len(arr)
+    for i in range(n):
+        for j in range(0, n-i-1):
+            if arr[j][2] > arr[j+1][2]:  # Swap if the element is greater
+                arr[j], arr[j+1] = arr[j+1], arr[j]
+    return arr
 
 
 knn1 = KNN([
