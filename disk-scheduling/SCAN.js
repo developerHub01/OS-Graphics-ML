@@ -12,8 +12,6 @@ class SCAN {
 
     const leftWayDistance = Math.abs(this.totalTrack - 1 - minRequest);
 
-    console.log({ minRequest, rightWayDistance, leftWayDistance });
-
     return leftWayDistance + rightWayDistance;
   }
 }
