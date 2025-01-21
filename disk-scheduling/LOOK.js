@@ -21,5 +21,6 @@ class LOOK {
   }
 }
 
-const look = new LOOK(200, 50, [82, 170, 43, 140, 24, 16, 190]);
+// const look = new LOOK(200, 50, [82, 170, 43, 140, 24, 16, 190]);
+const look = new LOOK(200, 50, [88, 150, 44, 173, 30, 15, 195]);
 console.log(look.count());

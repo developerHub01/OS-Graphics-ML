@@ -30,7 +30,11 @@ class FCFS {
   }
 }
 
-const fcfs = new FCFS(200, 50, [82, 170, 43, 140, 24, 16, 190]);
+// const fcfs = new FCFS(200, 50, [82, 170, 43, 140, 24, 16, 190]);
 
+// console.log(fcfs.count());
+// console.log(fcfs.shortCount());
+
+
+const fcfs = new FCFS(200, 50, [88, 15, 44, 173, 30, 15, 195]);
 console.log(fcfs.count());
-console.log(fcfs.shortCount());

@@ -16,5 +16,6 @@ class SCAN {
   }
 }
 
-const scan = new SCAN(200, 50, [82, 170, 43, 140, 24, 16, 190]);
+// const scan = new SCAN(200, 50, [82, 170, 43, 140, 24, 16, 190]);
+const scan = new SCAN(200, 50, [88, 150, 44, 173, 30, 15, 195]);
 console.log(scan.count());
